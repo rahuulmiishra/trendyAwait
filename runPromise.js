@@ -1,12 +1,3 @@
-const promise = () => {
-  return new Promise((res) => {
-    setTimeout(() => {
-      console.log('1');
-      res('promise');
-    }, 3000);
-  });
-};
-
 const runPromise = async (fn) => {
   try {
     const d = await fn();
@@ -16,9 +7,40 @@ const runPromise = async (fn) => {
   }
 };
 
+
+
+const promise = () => {
+  return new Promise((res) => {
+    setTimeout(() => {
+      console.log('1');
+      res('promise');
+    }, 3000);
+  });
+};
+
+
 async function test() {
   const [res] = await runPromise(promise);
   console.log('23', res);
 }
 
 test();
+
+// Demonstration of using params.
+const fetchDataFromServer = (params) => {
+  return () => {
+    return new Promise((res) => {
+      setTimeout(() => {
+        res(`Received Data' ${params}`);
+      }, 3000);
+    });
+  };
+};
+
+async function main() {
+  const [res1, error2] = await runPromise(fetchDataFromServer('123'));
+  const [res2, error1] = await runPromise(fetchDataFromServer());
+  console.log(res1);
+}
+
+main();
